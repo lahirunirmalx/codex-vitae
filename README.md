@@ -16,7 +16,7 @@ A Next.js application that displays markdown articles from a GitHub or GitLab re
 - 🕰️ **Commit-based Sorting** — Latest articles shown first based on commit date
 - 🏛️ **Ancient Codex Theme** — Weathered parchment, cryptic symbols, Latin phrases
 - 🌙 **Dark Mode** — Charred/burnt parchment aesthetic
-- ⚡ **Vercel Ready** — Optimized for deployment on Vercel
+- ⚡ **Vercel & Netlify Ready** — Optimized for deployment on both platforms
 
 ---
 
@@ -115,6 +115,41 @@ Open [http://localhost:3000](http://localhost:3000) to view the codex.
 
 ---
 
+## 🌐 Deploy to Netlify
+
+### Option 1: Deploy Button
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/lahirunirmalx/codex-vitae)
+
+### Option 2: Manual Deployment
+
+1. **Push to GitHub** (if not already done)
+
+2. **Import to Netlify**
+   - Go to [app.netlify.com](https://app.netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect your GitHub repository
+   - Netlify will auto-detect Next.js and use `netlify.toml`
+
+3. **Configure Environment Variables**
+   
+   In Netlify Dashboard → Your Site → Site settings → Environment variables, add:
+
+   | Key | Value |
+   |-----|-------|
+   | `GIT_PROVIDER` | `github` |
+   | `GITHUB_TOKEN` | `ghp_your_token_here` |
+   | `GITHUB_OWNER` | `your-username` |
+   | `GITHUB_REPO` | `your-content-repo` |
+   | `GITHUB_BRANCH` | `main` |
+   | `GITHUB_PAGES_PATH` | `pages` |
+
+4. **Deploy**
+   - Click "Deploy site"
+   - Your Codex Vitae will be live!
+
+---
+
 ## 🔑 Getting API Tokens
 
 ### GitHub Personal Access Token
@@ -151,6 +186,8 @@ codex-vitae/
 │   ├── git-provider.ts       # GitHub/GitLab API functions
 │   └── markdown.ts           # Markdown parser
 ├── .env.example              # Environment template
+├── .nvmrc                    # Node.js version
+├── netlify.toml              # Netlify configuration
 ├── next.config.ts            # Next.js configuration
 └── package.json
 ```
