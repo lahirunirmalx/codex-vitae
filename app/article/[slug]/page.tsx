@@ -96,7 +96,7 @@ export default async function ArticlePage({ params }: PageProps) {
           {/* Frontmatter tags */}
           {frontmatter.tags && Array.isArray(frontmatter.tags) && (
             <div className="flex flex-wrap justify-center gap-3 mt-6">
-              {frontmatter.tags.map((tag: string) => (
+              {(frontmatter.tags as string[]).map((tag) => (
                 <span 
                   key={tag}
                   className="px-3 py-1 text-xs font-[family-name:var(--font-display)] tracking-wider uppercase border border-[var(--blood-dried)]/30 text-[var(--blood-dried)]"
