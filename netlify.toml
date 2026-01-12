@@ -12,11 +12,15 @@
   package = "@netlify/plugin-nextjs"
 
 # Environment variables (set these in Netlify Dashboard)
-# GIT_PROVIDER, GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH, GITHUB_PAGES_PATH
+# Only GITHUB_TOKEN and GITLAB_TOKEN are actual secrets
+# GIT_PROVIDER, GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH, GITHUB_PAGES_PATH are config values
 
-# Node.js version
+# Node.js version and secrets scanning config
 [build.environment]
   NODE_VERSION = "20"
+  # Skip secrets scanning for non-sensitive config values
+  # Only actual secrets (tokens) should be scanned
+  SECRETS_SCAN_OMIT_KEYS = "GIT_PROVIDER,GITHUB_API_URL,GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAGES_PATH,GITLAB_API_URL,GITLAB_PROJECT_ID,GITLAB_BRANCH,GITLAB_PAGES_PATH"
 
 # Headers for security
 [[headers]]
@@ -41,9 +45,3 @@
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Redirects (if needed)
-# [[redirects]]
-#   from = "/old-path"
-#   to = "/new-path"
-#   status = 301
