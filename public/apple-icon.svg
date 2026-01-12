@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1612"/>
+      <stop offset="100%" style="stop-color:#0d0b09"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="180" height="180" rx="40" fill="url(#bg)"/>
+  
+  <!-- Outer ring -->
+  <circle cx="90" cy="90" r="75" fill="none" stroke="#b8860b" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Inner seal -->
+  <circle cx="90" cy="90" r="60" fill="none" stroke="#8b3a3a" stroke-width="3"/>
+  
+  <!-- CV text -->
+  <text x="90" y="105" text-anchor="middle" font-family="serif" font-size="50" font-weight="bold" fill="#e8d5a3">
+    CV
+  </text>
+  
+  <!-- Decorative dots -->
+  <circle cx="90" cy="25" r="4" fill="#b8860b"/>
+  <circle cx="90" cy="155" r="4" fill="#b8860b"/>
+  <circle cx="25" cy="90" r="4" fill="#b8860b"/>
+  <circle cx="155" cy="90" r="4" fill="#b8860b"/>
+</svg>

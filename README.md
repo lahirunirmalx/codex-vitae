@@ -77,7 +77,7 @@ Open [http://localhost:3000](http://localhost:3000) to view the codex.
 
 ### Option 1: Deploy Button
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/YOUR_REPO&env=GIT_PROVIDER,GITHUB_TOKEN,GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAGES_PATH)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ylahirunirmalx/codex-vitae&env=GIT_PROVIDER,GITHUB_TOKEN,GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAGES_PATH)
 
 ### Option 2: Manual Deployment
 
