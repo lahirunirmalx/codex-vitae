@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getFileContent, getFileCommitInfo } from '@/lib/git-provider';
+import { getFileContent, getFileCommitInfo, CommitInfo } from '@/lib/git-provider';
 import { parseMarkdown } from '@/lib/markdown';
 
 export async function GET(
@@ -10,7 +10,7 @@ export async function GET(
     const { slug } = await params;
     const fileName = `${slug}.md`;
     
-    const [rawContent, commitInfo] = await Promise.all([
+    const [rawContent, commitInfo]: [string, CommitInfo | null] = await Promise.all([
       getFileContent(fileName),
       getFileCommitInfo(fileName),
     ]);

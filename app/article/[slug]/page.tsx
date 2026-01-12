@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getFileContent, getFileCommitInfo } from '@/lib/git-provider';
-import { parseMarkdown } from '@/lib/markdown';
+import { getFileContent, getFileCommitInfo, CommitInfo } from '@/lib/git-provider';
+import { parseMarkdown, ParsedMarkdown } from '@/lib/markdown';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -20,26 +20,20 @@ function formatDate(dateString: string): string {
   return `${romanNumerals[day - 1] || day} ${month}, Year ${year} A.C.`;
 }
 
-export default async function ArticlePage({ params }: PageProps) {
-  const { slug } = await params;
-  const fileName = `${decodeURIComponent(slug)}.md`;
-  
-  let content: string;
-  let commitInfo;
-  
-  try {
-    [content, commitInfo] = await Promise.all([
-      getFileContent(fileName),
-      getFileCommitInfo(fileName),
-    ]);
-  } catch (error) {
-    console.error('Error loading article:', error);
-    notFound();
-  }
-  
-  const { content: htmlContent, title, frontmatter } = parseMarkdown(content);
+interface ArticleContentProps {
+  fileName: string;
+  slug: string;
+  commitInfo: CommitInfo | null;
+  parsed: ParsedMarkdown;
+}
+
+function ArticleContent({ fileName, slug, commitInfo, parsed }: ArticleContentProps) {
+  const { content: htmlContent, title, frontmatter } = parsed;
   const displayTitle = title || slug.replace(/[-_]/g, ' ');
-  
+  const tags: string[] = frontmatter.tags && Array.isArray(frontmatter.tags) 
+    ? (frontmatter.tags as string[]) 
+    : [];
+
   return (
     <main className="min-h-screen bg-[var(--background)]">
       {/* Aged vignette effect */}
@@ -76,7 +70,7 @@ export default async function ArticlePage({ params }: PageProps) {
           </h1>
           
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-[var(--ink-faded)]">
-            {commitInfo && (
+            {commitInfo !== null && (
               <div className="flex items-center gap-2">
                 <span className="text-[var(--gold-ancient)]">✦</span>
                 <span className="font-[family-name:var(--font-display)] tracking-wide">
@@ -94,9 +88,9 @@ export default async function ArticlePage({ params }: PageProps) {
           </div>
           
           {/* Frontmatter tags */}
-          {frontmatter.tags && Array.isArray(frontmatter.tags) && (
+          {tags.length > 0 && (
             <div className="flex flex-wrap justify-center gap-3 mt-6">
-              {(frontmatter.tags as string[]).map((tag) => (
+              {tags.map((tag) => (
                 <span 
                   key={tag}
                   className="px-3 py-1 text-xs font-[family-name:var(--font-display)] tracking-wider uppercase border border-[var(--blood-dried)]/30 text-[var(--blood-dried)]"
@@ -133,7 +127,7 @@ export default async function ArticlePage({ params }: PageProps) {
               <span>Return to Codex</span>
             </Link>
             
-            {commitInfo && (
+            {commitInfo !== null && (
               <p className="text-xs text-[var(--ink-faded)] italic">
                 Last transcribed: {formatDate(commitInfo.date)}
               </p>
@@ -148,5 +142,36 @@ export default async function ArticlePage({ params }: PageProps) {
         </footer>
       </div>
     </main>
+  );
+}
+
+export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
+  const fileName = `${decodeURIComponent(slug)}.md`;
+  
+  let content: string;
+  let commitInfo: CommitInfo | null;
+  
+  try {
+    const results = await Promise.all([
+      getFileContent(fileName),
+      getFileCommitInfo(fileName),
+    ]);
+    content = results[0];
+    commitInfo = results[1];
+  } catch (error) {
+    console.error('Error loading article:', error);
+    notFound();
+  }
+  
+  const parsed = parseMarkdown(content);
+  
+  return (
+    <ArticleContent 
+      fileName={fileName}
+      slug={slug}
+      commitInfo={commitInfo}
+      parsed={parsed}
+    />
   );
 }
