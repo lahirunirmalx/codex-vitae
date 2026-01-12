@@ -1,26 +1,363 @@
+/* Ancient Script Fonts - must be first */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=UnifrakturMaguntia&display=swap');
+
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Aged Parchment Colors */
+  --parchment-light: #f4e4c1;
+  --parchment: #e8d5a3;
+  --parchment-dark: #d4c089;
+  --ink-faded: #5c4a3d;
+  --ink: #2d1f14;
+  --ink-dark: #1a120a;
+  --blood-dried: #8b3a3a;
+  --gold-ancient: #b8860b;
+  --rust: #a0522d;
+  --char: #1a1612;
+  
+  --background: var(--parchment-light);
+  --foreground: var(--ink);
+  
+  --font-display: 'Cinzel', serif;
+  --font-body: 'Crimson Text', Georgia, serif;
+  --font-ancient: 'UnifrakturMaguntia', cursive;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0d0b09;
+    --foreground: #c9b896;
+    --parchment-light: #1a1612;
+    --parchment: #252017;
+    --parchment-dark: #0d0b09;
+    --ink-faded: #8b7355;
+    --ink: #c9b896;
+    --ink-dark: #e8d5a3;
   }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Parchment texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  z-index: 9999;
+}
+
+/* Ancient scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--parchment-dark);
+  border-left: 1px solid var(--ink-faded);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--ink-faded), var(--rust));
+  border-radius: 0;
+  border: 2px solid var(--parchment-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--blood-dried);
+}
+
+/* Selection - blood ink */
+::selection {
+  background: var(--blood-dried);
+  color: var(--parchment-light);
+}
+
+/* Cryptic glyph decorations */
+.glyph::before {
+  content: '֍';
+  margin-right: 0.5em;
+  color: var(--gold-ancient);
+}
+
+.glyph::after {
+  content: '֎';
+  margin-left: 0.5em;
+  color: var(--gold-ancient);
+}
+
+/* Ancient divider */
+.divider-ancient {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--ink-faded);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.divider-ancient::before,
+.divider-ancient::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ink-faded), transparent);
+}
+
+/* Worn edges effect */
+.worn-edge {
+  position: relative;
+}
+
+.worn-edge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ink-faded);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Seal/stamp effect */
+.seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 2px solid var(--blood-dried);
+  border-radius: 50%;
+  font-family: var(--font-ancient);
+  font-size: 1.25rem;
+  color: var(--blood-dried);
+  opacity: 0.8;
+}
+
+/* Fade in animation for manuscripts */
+@keyframes manuscript-reveal {
+  from {
+    opacity: 0;
+    filter: blur(2px) sepia(100%);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0) sepia(0);
+    transform: translateY(0);
+  }
+}
+
+.manuscript-reveal {
+  animation: manuscript-reveal 0.8s ease-out forwards;
+}
+
+/* Cryptic flicker for headings */
+@keyframes ancient-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.95; }
+  75% { opacity: 0.98; }
+}
+
+/* Skeleton for loading - aged look */
+@keyframes age-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--parchment-dark) 25%,
+    var(--parchment) 50%,
+    var(--parchment-dark) 75%
+  );
+  background-size: 200% 100%;
+  animation: age-shimmer 2s infinite;
+  border-radius: 2px;
+}
+
+/* Prose styles for ancient documents */
+.prose-codex {
+  font-family: var(--font-body);
+  color: var(--ink);
+  font-size: 1.125rem;
+  line-height: 1.9;
+}
+
+.prose-codex h1,
+.prose-codex h2,
+.prose-codex h3 {
+  font-family: var(--font-display);
+  color: var(--ink-dark);
+  letter-spacing: 0.05em;
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose-codex h1 {
+  font-size: 2rem;
+  border-bottom: 1px solid var(--ink-faded);
+  padding-bottom: 0.5em;
+}
+
+.prose-codex h2 {
+  font-size: 1.5rem;
+}
+
+.prose-codex h3 {
+  font-size: 1.25rem;
+  font-style: italic;
+}
+
+.prose-codex p {
+  margin-bottom: 1.5em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.prose-codex a {
+  color: var(--blood-dried);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+}
+
+.prose-codex a:hover {
+  color: var(--gold-ancient);
+  text-decoration-style: solid;
+}
+
+.prose-codex blockquote {
+  border-left: 3px solid var(--gold-ancient);
+  background: rgba(184, 134, 11, 0.05);
+  padding: 1em 1.5em;
+  margin: 1.5em 0;
+  font-style: italic;
+  position: relative;
+}
+
+.prose-codex blockquote::before {
+  content: '"';
+  font-family: var(--font-ancient);
+  font-size: 3rem;
+  color: var(--gold-ancient);
+  opacity: 0.3;
+  position: absolute;
+  top: -0.5rem;
+  left: 0.5rem;
+}
+
+.prose-codex code {
+  font-family: var(--font-mono);
+  background: var(--parchment-dark);
+  padding: 0.2em 0.4em;
+  border: 1px solid var(--ink-faded);
+  font-size: 0.9em;
+}
+
+.prose-codex pre {
+  background: var(--char);
+  color: var(--parchment);
+  padding: 1.5em;
+  overflow-x: auto;
+  border: 1px solid var(--ink-faded);
+  position: relative;
+}
+
+.prose-codex pre::before {
+  content: '// FRAGMENTUM';
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  font-size: 0.6rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.2em;
+  font-family: var(--font-display);
+}
+
+.prose-codex ul,
+.prose-codex ol {
+  margin: 1.5em 0;
+  padding-left: 1.5em;
+}
+
+.prose-codex li {
+  margin-bottom: 0.5em;
+}
+
+.prose-codex li::marker {
+  color: var(--gold-ancient);
+}
+
+.prose-codex hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ink-faded), transparent);
+  margin: 3em 0;
+}
+
+.prose-codex img {
+  border: 1px solid var(--ink-faded);
+  padding: 0.5em;
+  background: var(--parchment);
+}
+
+.prose-codex table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+.prose-codex th,
+.prose-codex td {
+  border: 1px solid var(--ink-faded);
+  padding: 0.75em 1em;
+  text-align: left;
+}
+
+.prose-codex th {
+  background: var(--parchment-dark);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+/* Focus states */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold-ancient);
+  outline-offset: 2px;
 }

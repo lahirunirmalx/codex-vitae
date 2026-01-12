@@ -1,36 +1,202 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⁂ Codex Vitae
 
-## Getting Started
+> *Chronicles of the Lost Age — Preserved manuscripts from the time before*
 
-First, run the development server:
+A Next.js application that displays markdown articles from a GitHub or GitLab repository with an ancient, post-apocalyptic codex aesthetic.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38bdf8?style=flat-square&logo=tailwindcss)
+
+---
+
+## ✦ Features
+
+- 📜 **Markdown Rendering** — Fetches and displays .md files from your Git repository
+- 🕰️ **Commit-based Sorting** — Latest articles shown first based on commit date
+- 🏛️ **Ancient Codex Theme** — Weathered parchment, cryptic symbols, Latin phrases
+- 🌙 **Dark Mode** — Charred/burnt parchment aesthetic
+- ⚡ **Vercel Ready** — Optimized for deployment on Vercel
+
+---
+
+## ❧ Repository Structure
+
+Your content repository should have this structure:
+
+```
+your-repo/
+├── pages/                    # Markdown articles folder
+│   ├── my_awesome_article.md
+│   ├── another_article.md
+│   ├── news.md
+│   └── ...
+└── images/                   # Optional: image assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file for local development (copy from `.env.example`):
 
-## Learn More
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `GIT_PROVIDER` | `github` or `gitlab` | Yes |
+| `GITHUB_TOKEN` | GitHub Personal Access Token | For GitHub |
+| `GITHUB_OWNER` | GitHub username or organization | For GitHub |
+| `GITHUB_REPO` | Repository name | For GitHub |
+| `GITHUB_BRANCH` | Branch name (default: `main`) | For GitHub |
+| `GITHUB_PAGES_PATH` | Path to markdown folder (default: `pages`) | For GitHub |
+| `GITLAB_TOKEN` | GitLab Personal Access Token | For GitLab |
+| `GITLAB_PROJECT_ID` | GitLab project ID | For GitLab |
+| `GITLAB_BRANCH` | Branch name (default: `main`) | For GitLab |
+| `GITLAB_PAGES_PATH` | Path to markdown folder (default: `pages`) | For GitLab |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Local Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Install dependencies
+npm install
 
-## Deploy on Vercel
+# Copy environment variables
+cp .env.example .env.local
+# Edit .env.local with your repository details
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Run development server
+npm run dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) to view the codex.
+
+---
+
+## ☁️ Deploy to Vercel
+
+### Option 1: Deploy Button
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/YOUR_REPO&env=GIT_PROVIDER,GITHUB_TOKEN,GITHUB_OWNER,GITHUB_REPO,GITHUB_BRANCH,GITHUB_PAGES_PATH)
+
+### Option 2: Manual Deployment
+
+1. **Push to GitHub**
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit: Codex Vitae"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+   git push -u origin main
+   ```
+
+2. **Import to Vercel**
+   - Go to [vercel.com/new](https://vercel.com/new)
+   - Import your GitHub repository
+   - Vercel will auto-detect Next.js
+
+3. **Configure Environment Variables**
+   
+   In Vercel Dashboard → Your Project → Settings → Environment Variables, add:
+
+   | Name | Value |
+   |------|-------|
+   | `GIT_PROVIDER` | `github` |
+   | `GITHUB_TOKEN` | `ghp_your_token_here` |
+   | `GITHUB_OWNER` | `your-username` |
+   | `GITHUB_REPO` | `your-content-repo` |
+   | `GITHUB_BRANCH` | `main` |
+   | `GITHUB_PAGES_PATH` | `pages` |
+
+4. **Deploy**
+   - Click "Deploy"
+   - Your Codex Vitae will be live!
+
+---
+
+## 🔑 Getting API Tokens
+
+### GitHub Personal Access Token
+
+1. Go to [GitHub Settings → Developer settings → Personal access tokens](https://github.com/settings/tokens)
+2. Click "Generate new token (classic)"
+3. Select scopes:
+   - `public_repo` — for public repositories
+   - `repo` — for private repositories
+4. Copy the token (starts with `ghp_`)
+
+### GitLab Personal Access Token
+
+1. Go to [GitLab User Settings → Access Tokens](https://gitlab.com/-/profile/personal_access_tokens)
+2. Create a new token with `read_repository` scope
+3. Copy the token (starts with `glpat-`)
+
+---
+
+## 📁 Project Structure
+
+```
+codex-vitae/
+├── app/
+│   ├── api/
+│   │   └── articles/         # API routes
+│   ├── article/
+│   │   └── [slug]/           # Dynamic article pages
+│   ├── globals.css           # Ancient codex styles
+│   ├── layout.tsx            # Root layout
+│   ├── loading.tsx           # Loading skeleton
+│   └── page.tsx              # Home page
+├── lib/
+│   ├── git-provider.ts       # GitHub/GitLab API functions
+│   └── markdown.ts           # Markdown parser
+├── .env.example              # Environment template
+├── next.config.ts            # Next.js configuration
+└── package.json
+```
+
+---
+
+## 📜 Markdown Frontmatter
+
+Your markdown files can include optional frontmatter:
+
+```markdown
+---
+title: "The Ancient Prophecy"
+tags: ["prophecy", "ancient", "wisdom"]
+---
+
+# The Ancient Prophecy
+
+Your content here...
+```
+
+---
+
+## 🎨 Customization
+
+The theme uses CSS custom properties defined in `app/globals.css`:
+
+```css
+:root {
+  --parchment-light: #f4e4c1;
+  --parchment: #e8d5a3;
+  --ink: #2d1f14;
+  --blood-dried: #8b3a3a;
+  --gold-ancient: #b8860b;
+  /* ... more variables */
+}
+```
+
+---
+
+## ⁂
+
+*"In verbis virtus"* — In words, there is power.
+
+---
+
+## License
+
+MIT License - Feel free to use for your own ancient archives.
