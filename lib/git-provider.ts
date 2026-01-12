@@ -262,6 +262,9 @@ export async function getFileCommitInfo(path: string): Promise<CommitInfo | null
 
 // Get markdown files with commit info, sorted by date
 export async function getMarkdownFiles(): Promise<ArticleInfo[]> {
+  // Import markdown utilities dynamically to avoid circular deps
+  const { extractTitle, extractSummary } = await import('./markdown');
+  
   const files = await getFiles();
   
   const mdFiles = files.filter(f => f.type === 'file' && f.name.endsWith('.md'));
@@ -271,29 +274,19 @@ export async function getMarkdownFiles(): Promise<ArticleInfo[]> {
       const commitInfo = await getFileCommitInfo(file.name);
       
       // Get content for summary
-      let content = '';
       let title = file.name.replace('.md', '').replace(/[-_]/g, ' ');
-      let summary = '';
+      let summary = 'No preview available';
       
       try {
-        content = await getFileContent(file.name);
+        const content = await getFileContent(file.name);
         
-        // Extract title from first # heading or use filename
-        const titleMatch = content.match(/^#\s+(.+)$/m);
-        if (titleMatch) {
-          title = titleMatch[1];
-        }
+        // Use improved title extraction (strips markdown formatting)
+        title = extractTitle(content, file.name);
         
-        // Get first paragraph as summary (skip headings and empty lines)
-        const lines = content.split('\n').filter(line => 
-          line.trim() && !line.startsWith('#') && !line.startsWith('---')
-        );
-        summary = lines.slice(0, 2).join(' ').substring(0, 200);
-        if (summary.length >= 200) {
-          summary += '...';
-        }
+        // Use improved summary extraction (strips markdown, skips headers/quotes)
+        summary = extractSummary(content, 200);
       } catch {
-        summary = 'No preview available';
+        // Keep default values
       }
       
       return {
