@@ -126,7 +126,7 @@ The engine is now open source and ready for others to use. Future possibilities 
 
 ## Try It Yourself
 
-The Card Game Engine is available on ![GitHub](https://github.com/lahirunirmalx/cardCEngin). Whether you want to build the next great card game or just learn how game engines work, I hope this project provides a solid foundation.
+The Card Game Engine is available on [GitHub](https://github.com/lahirunirmalx/cardCEngin). Whether you want to build the next great card game or just learn how game engines work, I hope this project provides a solid foundation.
 
 Building something that makes other people's projects easier is deeply satisfying. Every card game built on this engine is a win for the philosophy that **good tools make better games**.
 
