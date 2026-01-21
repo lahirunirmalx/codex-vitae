@@ -6,7 +6,7 @@
 
 Have you ever wanted to create your own card game but felt overwhelmed by all the things you'd need to build? The shuffling, dealing, scoring, and user interface can quickly become a tangled mess of code. That's exactly the problem I set out to solve with the **Card Game Engine** — a foundation that handles all the boring stuff so you can focus on what makes your game unique.
 
-![Blackjack Game Screenshot](Screenshot%20from%202026-01-20%2019-54-41.png)
+![Blackjack Game Screenshot](https://raw.githubusercontent.com/lahirunirmalx/codex-vitae/refs/heads/main/pages/Screenshot%20from%202026-01-20%2019-54-41.png)
 
 *The engine running a Blackjack game — players see their cards, scores, and available actions*
 
