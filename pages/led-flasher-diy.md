@@ -25,6 +25,9 @@ The transistors are **cross-coupled**. The positive rail connects to the switch,
 
 ---
 
+[![Video Thumbnail](https://raw.githubusercontent.com/lahirunirmalx/codex-vitae/refs/heads/main/pages/vidthumbnail1.png)](https://photos.app.goo.gl/9BKKzdzE1S64Tad78)
+
+
 ### **Customising Your Flash Rate**
 One of the best things about this DIY build is how easy it is to adjust the timing to your preference:
 *   **Standard Flash:** Using **3.3k ohm resistors** (R2 and R3) provides a flash of about **one-third of a second** per L.E.D..
